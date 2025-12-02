@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 
 public enum BlockType { Dirt, Water, Gress, Air, steel, coal }
@@ -9,13 +10,13 @@ public class Block : MonoBehaviour
 {
     [Header("Block Stat")]
     public BlockType type = BlockType.Dirt;
-
     public int maxHP = 3;
-
     [HideInInspector] public int hp;
 
-    public int dropCount = 1;
-    public bool mineable = true;
+    [Header("드롭되는 아이템")]
+    public ItemSO dropItem;
+    public GameObject 
+
 
     void Awake()
     {
@@ -26,20 +27,36 @@ public class Block : MonoBehaviour
         
     }
 
-    public void Hit(int damage, Inventory inven)
-    {
+   public void Hit(int damage, Inventory inven)               //부셔질 때, 인벤에 저장
+   {
         if (!mineable) return;
 
         hp -= damage;
 
-        if (hp <= 0)
+        if(hp <= 0)
         {
-            if(inven != null && dropCount>0)
+            if (inven != null && dropItem !=null)
             {
-                inven.Add(type, dropCount);
-
-                Destroy(gameObject);
+                for (int i = 0; i < dropCount; i++)
+                {
+                    inven.AddItem(dropItem);
+                }
             }
+
+            Destroy(gameObject);
+        }
+    
+   }
+
+    public void BreakBlock()
+    {
+        Destroy(gameObject);
+
+        if(dropItem !=null && dropPrefab !=null)
+        {
+            GameObject drop = Instantiate(dropPrefab, transform.position, Quaternion.identity);
+
+            drop.GetComponent<DropItem>().item = dropItem;
         }
     }
 }

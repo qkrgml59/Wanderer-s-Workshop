@@ -115,13 +115,13 @@ public class NoiseVocelMap : MonoBehaviour
 
         map[x, y, z] = blockData;    //블럭 데이터 저장
 
-        Destroy(map[x, y, z].gameObject);          //오브젝트 삭제
-        map[x, y, z] = null;                       //저장 데이터 삭제
+       // Destroy(map[x, y, z].gameObject);          //오브젝트 삭제
+       // map[x, y, z] = null;                       //저장 데이터 삭제
 
-        if (blockPrefabWater != null)
-        {
-            Instantiate(blockPrefabWater);
-        }
+       // if (blockPrefabWater != null)
+       // {
+       //     Instantiate(blockPrefabWater);
+       // }
     }
 
     private void PlaceDirt(int x, int y, int z)
@@ -132,13 +132,13 @@ public class NoiseVocelMap : MonoBehaviour
 
         map[x, y, z] = blockData;    //블럭 데이터 저장
 
-        Destroy(map[x, y, z].gameObject);          //오브젝트 삭제
-        map[x, y, z] = null;                       //저장 데이터 삭제
+       // Destroy(map[x, y, z].gameObject);          //오브젝트 삭제
+                            //저장 데이터 삭제
 
-        if (blockPrefabDirt != null)
-        {
-            Instantiate(blockPrefabDirt);
-        }
+       // if (blockPrefabDirt != null)
+      //  {
+       //     Instantiate(blockPrefabDirt);
+       // }
     }
 
     private void PlaceGrass(int x, int y, int z)
@@ -149,13 +149,13 @@ public class NoiseVocelMap : MonoBehaviour
 
         map[x, y, z] = blockData;    //블럭 데이터 저장
 
-        Destroy(map[x, y, z].gameObject);          //오브젝트 삭제
-        map[x, y, z] = null;                       //저장 데이터 삭제
+      //  Destroy(map[x, y, z].gameObject);          //오브젝트 삭제
+                              //저장 데이터 삭제
 
-        if (blockPrefabGrass != null)
-        {
-            Instantiate(blockPrefabGrass);
-        }
+       // if (blockPrefabGrass != null)
+       // {
+       //     Instantiate(blockPrefabGrass);
+      //  }
     }
 
 
@@ -167,13 +167,13 @@ public class NoiseVocelMap : MonoBehaviour
 
         map[x, y, z] = blockData;    //블럭 데이터 저장
 
-        Destroy(map[x, y, z].gameObject);          //오브젝트 삭제
-        map[x, y, z] = null;
+       // Destroy(map[x, y, z].gameObject);          //오브젝트 삭제
+        
 
-        if (blockPrefabTree != null)
-        {
-            Instantiate(blockPrefabTree);
-        }
+       // if (blockPrefabTree != null)
+       // {
+       //     Instantiate(blockPrefabTree);
+       // }
     }
 
     public void PlaceCoal(int x, int y, int z)
@@ -184,13 +184,13 @@ public class NoiseVocelMap : MonoBehaviour
 
         map[x, y, z] = blockData;
 
-        Destroy(map[x, y, z].gameObject);
-        map[x, y, z] = null;
+       // Destroy(map[x, y, z].gameObject);
+        
 
-        if (blockPrefabCoal != null)
-        {
-            Instantiate(blockPrefabCoal);
-        }
+       // if (blockPrefabCoal != null)
+       // {
+       //     Instantiate(blockPrefabCoal);
+       // }
     }
 
     public void PlaceSteel(int x, int y, int z)
@@ -201,13 +201,13 @@ public class NoiseVocelMap : MonoBehaviour
 
         map[x, y, z] = blockData;
 
-        Destroy(map[x, y, z].gameObject);
-        map[x, y, z] = null;
+      ////  Destroy(map[x, y, z].gameObject);
+       
 
-        if (blockPrefabSteel != null)
-        {
-            Instantiate(blockPrefabSteel);
-        }
+       // if (blockPrefabSteel != null)
+        //{
+        //    Instantiate(blockPrefabSteel);
+      //  }
 
     }
 
