@@ -8,55 +8,52 @@ using UnityEngine.UIElements;
 public enum BlockType { Dirt, Water, Gress, Air, steel, coal }
 public class Block : MonoBehaviour
 {
-    [Header("Block Stat")]
+    [Header("Block")]
     public BlockType type = BlockType.Dirt;
     public int maxHP = 3;
+
     [HideInInspector] public int hp;
 
-    [Header("드롭되는 아이템")]
+    [Header("드롭 아이템")]
     public ItemSO dropItem;
-    public GameObject 
+    public GameObject dropPrefab;
+    public int dropCount = 1;
+    public bool mineable = true;
 
-
-    void Awake()
+    private void Awake()
     {
         hp = maxHP;
-        if (GetComponent<Collider>() == null) gameObject.AddComponent<BoxCollider>();
+
+        if (GetComponent<Collider>() == null)
+            gameObject.AddComponent<BoxCollider>();
+
         if (string.IsNullOrEmpty(gameObject.tag) || gameObject.tag == "Untagged")
             gameObject.tag = "Block";
-        
     }
 
-   public void Hit(int damage, Inventory inven)               //부셔질 때, 인벤에 저장
-   {
+    public void Hit(int damage)
+    {
         if (!mineable) return;
 
         hp -= damage;
 
-        if(hp <= 0)
+        if (hp <= 0)
         {
-            if (inven != null && dropItem !=null)
-            {
-                for (int i = 0; i < dropCount; i++)
-                {
-                    inven.AddItem(dropItem);
-                }
-            }
-
+            DropItems();
             Destroy(gameObject);
+
         }
-    
-   }
+    }
 
-    public void BreakBlock()
+    void DropItems()
     {
-        Destroy(gameObject);
+        if (dropItem == null || dropPrefab == null) return;
 
-        if(dropItem !=null && dropPrefab !=null)
+        for (int i = 0; i < dropCount; i++)
         {
             GameObject drop = Instantiate(dropPrefab, transform.position, Quaternion.identity);
-
             drop.GetComponent<DropItem>().item = dropItem;
         }
+
     }
 }

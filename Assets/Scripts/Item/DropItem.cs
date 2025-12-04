@@ -5,15 +5,21 @@ using UnityEngine;
 public class DropItem : MonoBehaviour
 {
     public ItemSO item;
+    public float pickUpDistance = 1.5f;
 
-    private void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        Inventory inv = other.GetComponent<Inventory>();
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player == null) return;
 
-        if (inv != null)
+        float dist = Vector3.Distance(transform.position, player.transform.position);
+
+        if(dist <= pickUpDistance)
         {
-            if (inv.AddItem(item))
+            Inventory inven = player.GetComponent<Inventory>();
+            if (inven !=null && item !=null)
             {
+                inven.AddItem(item);
                 Destroy(gameObject);
             }
         }

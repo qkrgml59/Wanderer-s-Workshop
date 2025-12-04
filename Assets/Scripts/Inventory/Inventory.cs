@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -58,5 +59,27 @@ public class Inventory : MonoBehaviour
         Debug.Log("현재 선택 슬롯 : " + selectedSlotIndex);
     }
 
+    public bool RemoveItem(ItemSO item, int count)
+    {
+        foreach(var slot in slots)
+        {
+            if (slot.item == item && slot.count >= count)
+            {
+                slot.count -= count;
+                if (slot.count <= 0) slot.item = null;
+                return true;
+
+            }
+        }
+        return false;
+    }
     
+
+    public void AddItemMultiple(ItemSO item, int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            AddItem(item);
+        }
+    }
 }
