@@ -20,16 +20,38 @@ public class CraftingUIManager : MonoBehaviour
         Instance = this;
     }
 
-    public void CloseUI()
+    private void Update()
     {
-        craftingPanel.SetActive(false);
+        if(craftingPanel.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseUI();
+        }
+     
     }
 
     public void ToggleUI()
     {
-        craftingPanel.SetActive(!craftingPanel.activeSelf);
-        RefreshAllSlots();
+        bool isOpen = !craftingPanel.activeSelf;
+        craftingPanel.SetActive(isOpen);
+
+        if (isOpen)
+        {
+            RefreshAllSlots();
+        }
+        else
+        {
+            ClearAllCraftingSlots();
+        }
     }
+
+    public void CloseUI()
+    {
+        craftingPanel.SetActive(false);
+        ReturnItemsToInventory();
+        ClearAllCraftingSlots();
+    }
+
+   
 
     public void RefreshAllSlots()
     {
@@ -73,6 +95,23 @@ public class CraftingUIManager : MonoBehaviour
         {
             slot.craftingSlot.Clear();
         
+        }
+    }
+
+    public void ReturnItemsToInventory()
+    {
+        foreach (var slot in craftingSlots)
+        {
+            if (slot.craftingSlot.item != null && slot.craftingSlot.count >0)
+            {
+                craftingManager.playerInventory.AddItemMultiple(
+                    slot.craftingSlot.item,
+                    slot.craftingSlot.count
+                    );
+            }
+
+            slot.craftingSlot.Clear();
+            slot.RefreshUI();
         }
     }
 }
