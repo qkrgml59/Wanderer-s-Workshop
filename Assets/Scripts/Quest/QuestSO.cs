@@ -12,9 +12,17 @@ public enum QuestType
 [CreateAssetMenu(menuName = "Quest/QuestSO")]
 public class QuestSO : ScriptableObject
 {
-    public string questName;       // 퀘스트 이름
-    public QuestType questType;    // Gather / Craft
+    [Header("퀘스트 정보")]
+    public string questName;
+    public string description;
 
-    public ItemSO targetItem;      // 목표 아이템
-    public int targetCount;        // 목표 개수
+    [Header("퀘스트 타입")]
+    public QuestType questType;
+
+    [Header("목표")]
+    public ItemSO targetItem;
+    public int targetCount;
+
+    [Header("보상")]
+    public int rewardGold;
 }

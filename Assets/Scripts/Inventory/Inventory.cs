@@ -9,12 +9,19 @@ public class Inventory : MonoBehaviour
     public int bigSlotCount = 18;
     public int quickSlotCount = 6;
 
+    public static Inventory Instance;
+
     public List<InventorySlot> slots = new();
 
     public int selectedSlotIndex = 0;
 
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+
         for (int i = 0; i < bigSlotCount; i++)
             slots.Add(new InventorySlot());
     }

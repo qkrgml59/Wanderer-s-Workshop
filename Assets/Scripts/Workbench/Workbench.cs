@@ -4,32 +4,24 @@ using UnityEngine;
 
 public class WorkBench : MonoBehaviour
 {
-    public CraftingUI craftUI;
-    public float interactDistance = 2f;
     public CraftingUI craftingUI;
+    public InventortyUI inventoryUI;
 
-    void Update()
+    bool isOpen = false;
+
+    public void Toggle()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        isOpen = !isOpen;
+
+        if (isOpen)
         {
-            TryInteract();
+            craftingUI.Open();
+            inventoryUI.SetBigInventory(true);
         }
-    }
-
-    void TryInteract()
-    {
-        GameObject player = GameObject.FindWithTag("Player");
-        if (!player) return;
-
-        if (Vector3.Distance(player.transform.position, transform.position) <= interactDistance)
+        else
         {
-            craftUI.Open();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
             craftingUI.Close();
+            inventoryUI.SetBigInventory(false);
+        }
     }
 }

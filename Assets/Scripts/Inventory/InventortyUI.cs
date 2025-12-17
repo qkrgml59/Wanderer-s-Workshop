@@ -32,4 +32,9 @@ public class InventortyUI : MonoBehaviour
             );
         }
     }
+
+    public void SetBigInventory(bool open)
+    {
+        inventoryPanel.SetActive(open);
+    }
 }
