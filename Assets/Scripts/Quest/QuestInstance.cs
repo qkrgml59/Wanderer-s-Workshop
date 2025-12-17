@@ -7,17 +7,12 @@ using UnityEngine;
 [Serializable]
 public class QuestInstance 
 {
-    [Header("퀘스트 데이터 원본(SO)")]
-    public QuestSO data;                    //ScriptableObject 원본
-
-    [Header("진행 상태")]
-    public int currentAmount = 0;
-    public bool isCompleted = false;
+    public QuestSO data;
+    public int currentAmount;
+    public bool isCompleted;
 
     public QuestInstance(QuestSO data)
     {
         this.data = data;
-        currentAmount = 0;
-        isCompleted = false;
     }
 }

@@ -10,16 +10,13 @@ public class DropItem : MonoBehaviour
     private void Update()
     {
         GameObject player = GameObject.FindWithTag("Player");
-        if (player == null) return;
+        if (!player) return;
 
-        float dist = Vector3.Distance(transform.position, player.transform.position);
-
-        if(dist <= pickUpDistance)
+        if (Vector3.Distance(transform.position, player.transform.position) <= pickUpDistance)
         {
-            Inventory inven = player.GetComponent<Inventory>();
-            if (inven !=null && item !=null)
+            Inventory inv = player.GetComponent<Inventory>();
+            if (inv && inv.AddItem(item, 1))
             {
-                inven.AddItem(item);
                 Destroy(gameObject);
             }
         }

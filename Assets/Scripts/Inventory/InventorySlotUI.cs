@@ -1,105 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-
-public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class InventorySlotUI : MonoBehaviour
 {
-    [Header("실제 데이터 슬롯")]
-    public InventorySlot linkedSlot;
+    public Image icon;
+    public TextMeshProUGUI countText;
 
-    [Header("UI")]
-    public Image itemIcon;
-    public Text itemCountText;
+    Inventory inventory;
+    int index;
 
-    private GameObject dragIcon;
-    private Transform canvas;
-
-
-    private void Start()
+    public void Init(Inventory inv, int slotIndex)
     {
-        canvas = GameObject.Find("Canvas").transform;
-        RefreshUI();
+        inventory = inv;
+        index = slotIndex;
     }
 
-    public void RefreshUI()
+    public void UpdateUI()
     {
-        if (linkedSlot.item == null || linkedSlot.count <=0)
+        var slot = inventory.slots[index];
+
+        if (slot.item == null)
         {
-            itemIcon.enabled = false;
-            itemCountText.text = "";
+            icon.enabled = false;
+            countText.text = "";
         }
         else
         {
-            itemIcon.enabled = true;
-            itemIcon.sprite = linkedSlot.item.icon;
-            itemCountText.text = linkedSlot.count.ToString();
+            icon.enabled = true;
+            icon.sprite = slot.item.icon;
+            countText.text = slot.count.ToString();
         }
-
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnClick()
     {
-        if (linkedSlot.item == null) return;
-
-        dragIcon = new GameObject("DragIcon");
-        dragIcon.transform.SetParent(canvas);
-        dragIcon.transform.SetAsLastSibling();
-
-        Image img = dragIcon.AddComponent<Image>();
-        img.sprite = linkedSlot.item.icon;
-        img.raycastTarget = false;
-
-        RectTransform rt = dragIcon.GetComponent<RectTransform>();
-        rt.sizeDelta = new Vector2(80, 80);
+        CraftingUI.Instance.TryAddMaterial(inventory.slots[index]);
     }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (dragIcon != null)
-            Destroy(dragIcon);
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (dragIcon != null)
-            Destroy(dragIcon);
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        InventorySlotUI fromInventory = eventData.pointerDrag?.GetComponent<InventorySlotUI>();
-        CraftingSlotUI fromCrafting = eventData.pointerDrag?.GetComponent<CraftingSlotUI>();
-
-        if(fromInventory !=null)
-        {
-            SwapSlots(fromInventory);
-            return;
-        }
-
-        if (fromCrafting !=null)
-        {
-            return;
-        }
-        
-    }
-
-    private void SwapSlots(InventorySlotUI other)
-    {
-        ItemSO tempItem = linkedSlot.item;
-        int tempCount = linkedSlot.count;
-
-        linkedSlot.item = other.linkedSlot.item;
-        linkedSlot.count = other.linkedSlot.count;
-
-        other.linkedSlot.item = tempItem;
-        other.linkedSlot.count = tempCount;
-
-        RefreshUI();
-        other.RefreshUI();
-
-    }
-
 }

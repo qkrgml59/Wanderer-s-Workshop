@@ -8,7 +8,7 @@ public class ItemUse : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(1))    //우클릭
+        if (Input.GetMouseButtonDown(1))    //우클릭
         {
             TryUseCurrentItem();
         }
@@ -17,7 +17,7 @@ public class ItemUse : MonoBehaviour
     void TryUseCurrentItem()
     {
         var slot = inventory.slots[inventory.selectedSlotIndex];
-        if (slot.item == null || slot.count <=0) return;
+        if (slot.item == null || slot.count <= 0) return;
 
         if (!slot.item.canUse)
         {
@@ -28,9 +28,11 @@ public class ItemUse : MonoBehaviour
         Debug.Log(slot.item.itemName + "사용됨");
 
         slot.count--;
-        if(slot.count <= 0)
+        if (slot.count <= 0)
         {
             slot.item = null;
         }
     }
+
+
 }
