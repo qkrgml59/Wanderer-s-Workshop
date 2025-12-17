@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerGather : MonoBehaviour
 {
-    public float attackRange = 3f;
+    public float gatherDistance = 3f;
     public LayerMask blockLayer;
     public int baseDamage = 1;
 
@@ -27,16 +27,15 @@ public class PlayerGather : MonoBehaviour
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, attackRange, blockLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, gatherDistance))
         {
-            Block block = hit.collider.GetComponent<Block>();
-            if (block)
+            if (hit.collider.TryGetComponent<Block>(out Block block))
             {
-                int damage = Mathf.RoundToInt(
-                    baseDamage * PlayerStats.Instance.gatherDamage
-                );
-
-                block.Hit(damage);
+                block.Hit((int)PlayerStats.Instance.gatherDamage);
+            }
+            else if (hit.collider.TryGetComponent<PlaceableObject>(out PlaceableObject place))
+            {
+                place.Hit((int)PlayerStats.Instance.gatherDamage);
             }
         }
     }

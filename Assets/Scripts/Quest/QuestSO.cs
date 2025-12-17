@@ -3,25 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Quest",menuName = "Survival Game/Event")]
-
-
-public class QuestSO : ScriptableObject 
+public enum QuestType
 {
+    Gather,
+    Craft
+}
 
-    public QuestType questType;
+[CreateAssetMenu(menuName = "Quest/QuestSO")]
+public class QuestSO : ScriptableObject
+{
+    public string questName;       // 퀘스트 이름
+    public QuestType questType;    // Gather / Craft
 
-    // 제작 퀘스트용
-    public ItemSO targetItem;
-    public int requiredAmount;
-
-    // 보상
-    public int rewardGold;
-
-
-    public enum QuestType
-    {
-        Gather,
-        Craft
-    }
+    public ItemSO targetItem;      // 목표 아이템
+    public int targetCount;        // 목표 개수
 }

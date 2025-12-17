@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 using static QuestSO;
 
@@ -15,29 +16,15 @@ public class QuestManager : MonoBehaviour
         Instance = this;
     }
 
-    // 제작 성공 시 호출
-    public void OnCraft(ItemSO craftedItem)
+    public void OnGather(ItemSO item)
     {
         foreach (var quest in activeQuests)
-        {
-            if (quest.isCompleted) continue;
-            if (quest.data.questType != QuestType.Craft) continue;
-
-            if (quest.data.targetItem == craftedItem)
-            {
-                quest.currentAmount++;
-
-                if (quest.currentAmount >= quest.data.requiredAmount)
-                {
-                    CompleteQuest(quest);
-                }
-            }
-        }
+            quest.OnGather(item);
     }
 
-    void CompleteQuest(QuestInstance quest)
+    public void OnCraft(ItemSO item)
     {
-        quest.isCompleted = true;
-        PlayerStats.Instance.AddGold(quest.data.rewardGold);
+        foreach (var quest in activeQuests)
+            quest.OnCraft(item);
     }
 }

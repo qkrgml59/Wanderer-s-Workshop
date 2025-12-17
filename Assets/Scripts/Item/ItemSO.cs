@@ -20,6 +20,10 @@ public class ItemSO : ScriptableObject
     [Header("아이콘 이미지")]
     public Sprite icon;
 
+    [Header("설치 아이템")]
+    public bool isPlaceable;                 // 설치 가능 여부
+    public GameObject placePrefab;           // 설치될 프리팹
+
     public bool canUse;             //아이템 사용 가능 여부
 
     public enum ItemType

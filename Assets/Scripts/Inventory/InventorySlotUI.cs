@@ -8,35 +8,44 @@ public class InventorySlotUI : MonoBehaviour
 {
     public Image icon;
     public TextMeshProUGUI countText;
+    public GameObject selectFrame;
 
     Inventory inventory;
+    InventorySlot slot;
     int index;
 
-    public void Init(Inventory inv, int slotIndex)
+    public void Init(Inventory inventory, int index)
     {
-        inventory = inv;
-        index = slotIndex;
+        this.inventory = inventory;
+        this.index = index;
     }
 
-    public void UpdateUI()
+    public void UpdateUI(InventorySlot slot, bool selected)
     {
-        var slot = inventory.slots[index];
-
         if (slot.item == null)
         {
             icon.enabled = false;
             countText.text = "";
+            selectFrame?.SetActive(false);
+            return;
         }
-        else
-        {
-            icon.enabled = true;
-            icon.sprite = slot.item.icon;
-            countText.text = slot.count.ToString();
-        }
+
+        icon.enabled = true;
+        icon.sprite = slot.item.icon;
+        countText.text = slot.count.ToString();
+
+        if (selectFrame != null)
+            selectFrame.SetActive(selected);
     }
 
     public void OnClick()
     {
-        CraftingUI.Instance.TryAddMaterial(inventory.slots[index]);
+        if (slot.item == null) return;
+
+        CraftingUI crafting = FindObjectOfType<CraftingUI>();
+        if (crafting != null && crafting.gameObject.activeSelf)
+        {
+            crafting.SelectMaterial(slot.item);
+        }
     }
 }

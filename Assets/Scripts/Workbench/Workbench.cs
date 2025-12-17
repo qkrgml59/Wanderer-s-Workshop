@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class WorkBench : MonoBehaviour
 {
-    public GameObject craftingUI;
-    public GameObject inventoryUI;
+    public CraftingUI craftUI;
+    public float interactDistance = 2f;
+    public CraftingUI craftingUI;
 
-    private void OnTriggerStay(Collider other)
+    void Update()
     {
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            craftingUI.SetActive(true);
-            inventoryUI.SetActive(true);
+            TryInteract();
         }
+    }
+
+    void TryInteract()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        if (!player) return;
+
+        if (Vector3.Distance(player.transform.position, transform.position) <= interactDistance)
+        {
+            craftUI.Open();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            craftingUI.Close();
     }
 }

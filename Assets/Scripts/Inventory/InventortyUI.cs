@@ -6,7 +6,6 @@ public class InventortyUI : MonoBehaviour
 {
     public Inventory inventory;
     public InventorySlotUI[] slotUIs;
-
     public GameObject inventoryPanel;
 
     private void Start()
@@ -25,7 +24,12 @@ public class InventortyUI : MonoBehaviour
             inventoryPanel.SetActive(!inventoryPanel.activeSelf);
         }
 
-        foreach (var slot in slotUIs)
-            slot.UpdateUI();
+        for (int i = 0; i < slotUIs.Length; i++)
+        {
+            slotUIs[i].UpdateUI(
+                inventory.slots[i],
+                inventory.selectedSlotIndex == i
+            );
+        }
     }
 }

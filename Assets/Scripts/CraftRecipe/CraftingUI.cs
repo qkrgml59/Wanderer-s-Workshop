@@ -1,49 +1,110 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftingUI : MonoBehaviour
 {
-    public static CraftingUI Instance;
+    [Header("참조")]
+    public Inventory inventory;
+    public RecipeSO[] recipes;
 
-    public InventorySlot materialA;
-    public InventorySlot materialB;
+    [Header("UI")]
+    public GameObject panel;
+    public Image matAImage;
+    public Image matBImage;
+    public Image resultImage;
 
-    public ItemSO resultItem;
+    private ItemSO matA;
+    private ItemSO matB;
 
-    private void Awake()
+    private void Start()
     {
-        Instance = this;
-        materialA = new InventorySlot();
-        materialB = new InventorySlot();
+        panel.SetActive(false);
+        ClearSlots();
     }
 
-    public void TryAddMaterial(InventorySlot fromSlot)
+
+    public void Open()
     {
-        if (materialA.item == null)
-            MoveItem(fromSlot, materialA);
-        else if (materialB.item == null)
-            MoveItem(fromSlot, materialB);
+        panel.SetActive(true);
+        ClearSlots();
     }
 
-    void MoveItem(InventorySlot from, InventorySlot to)
+    public void Close()
     {
-        to.item = from.item;
-        to.count = 1;
-        from.count--;
-        if (from.count <= 0) from.Clear();
+        panel.SetActive(false);
+    }
+
+
+    public void SelectMaterial(ItemSO item)
+    {
+        if (matA == null)
+        {
+            matA = item;
+            matAImage.sprite = item.icon;
+            matAImage.enabled = true;
+        }
+        else if (matB == null)
+        {
+            matB = item;
+            matBImage.sprite = item.icon;
+            matBImage.enabled = true;
+        }
+
+        UpdateResult();
+    }
+
+    void UpdateResult()
+    {
+        resultImage.enabled = false;
+
+        foreach (var recipe in recipes)
+        {
+            bool match =
+                (recipe.materialA == matA && recipe.materialB == matB) ||
+                (recipe.materialA == matB && recipe.materialB == matA);
+
+            if (match)
+            {
+                resultImage.sprite = recipe.result.icon;
+                resultImage.enabled = true;
+                return;
+            }
+        }
     }
 
     public void Craft()
     {
-        if (materialA.item == null || materialB.item == null) return;
+        foreach (var recipe in recipes)
+        {
+            bool match =
+                (recipe.materialA == matA && recipe.materialB == matB) ||
+                (recipe.materialA == matB && recipe.materialB == matA);
 
-        Inventory inv = FindObjectOfType<Inventory>();
-        inv.AddItem(resultItem, 1);
+            if (!match) continue;
 
-        QuestManager.Instance.OnCraft(resultItem);
+            if (!inventory.HasItem(matA, 1) || !inventory.HasItem(matB, 1))
+                return;
 
-        materialA.Clear();
-        materialB.Clear();
+            inventory.RemoveItem(matA, 1);
+            inventory.RemoveItem(matB, 1);
+            inventory.AddItem(recipe.result, 1);
+
+            QuestManager.Instance.OnCraft(recipe.result);
+
+            ClearSlots();
+            return;
+        }
+    }
+
+    void ClearSlots()
+    {
+        matA = matB = null;
+
+        matAImage.enabled = false;
+        matBImage.enabled = false;
+        resultImage.enabled = false;
     }
 }
