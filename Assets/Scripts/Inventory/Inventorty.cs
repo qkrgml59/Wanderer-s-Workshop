@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -17,32 +18,32 @@ public class Inventory : MonoBehaviour
             slots.Add(new InventorySlot());
     }
 
-    public bool AddItem(ItemSO item, int amount)
+    public bool AddItem(ItemSO newItem, int amount)
     {
-        Debug.Log("AddItem 호출: " + item.itemName);
+        Debug.Log("AddItem 호출: " + newItem.itemName);
 
-        foreach (var slot in slots)
+        foreach (InventorySlot slot in slots)
         {
-            if (slot.item == item && slot.count < item.maxStack)
+            if (slot.item == newItem)
             {
                 slot.count += amount;
-                Debug.Log("스택 증가");
+                Debug.Log(newItem.itemName + " 누적: " + slot.count);
                 return true;
             }
         }
 
-        foreach (var slot in slots)
+        foreach (InventorySlot slot in slots)
         {
             if (slot.item == null)
             {
-                slot.item = item;
+                slot.item = newItem;
                 slot.count = amount;
-                Debug.Log("새 슬롯에 추가");
+                Debug.Log(newItem.itemName + " 새 슬롯 추가");
                 return true;
             }
         }
 
-        Debug.Log("인벤토리 가득 참");
+        Debug.Log("인벤토리 꽉 참");
         return false;
     }
 }

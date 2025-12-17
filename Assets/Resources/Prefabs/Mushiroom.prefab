@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8055876191877264095}
   - component: {fileID: 2840789472520272959}
   - component: {fileID: -2176513816750302079}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Mushiroom
   m_TagString: Block
   m_Icon: {fileID: 0}
@@ -193,12 +193,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 170491c921b058346b2c2c7cff6e4e4c,
         type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: 170491c921b058346b2c2c7cff6e4e4c,
         type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

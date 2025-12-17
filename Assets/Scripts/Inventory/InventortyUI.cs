@@ -11,7 +11,7 @@ public class InventortyUI : MonoBehaviour
 
     private void Start()
     {
-        inventoryPanel.SetActive(true);
+        inventoryPanel.SetActive(false);
 
         for (int i = 0; i < slotUIs.Length; i++)
             slotUIs[i].Init(inventory, i);
