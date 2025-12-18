@@ -6,22 +6,27 @@ using UnityEngine.UI;
 
 public class InventorySlotUI : MonoBehaviour
 {
+    [Header("UI 참조")]
     public Image icon;
     public TextMeshProUGUI countText;
     public GameObject selectFrame;
 
-    Inventory inventory;
-    InventorySlot slot;
-    int index;
+    private Inventory inventory;
+    private InventorySlot slot; // 클릭 시 사용할 슬롯
+    private int index;
 
+    // 슬롯 초기화
     public void Init(Inventory inventory, int index)
     {
         this.inventory = inventory;
         this.index = index;
     }
 
+    // UI 갱신
     public void UpdateUI(InventorySlot slot, bool selected)
     {
+        this.slot = slot; // ★ 반드시 slot 할당
+
         if (slot.item == null)
         {
             icon.enabled = false;
@@ -38,9 +43,10 @@ public class InventorySlotUI : MonoBehaviour
             selectFrame.SetActive(selected);
     }
 
+    // 클릭 시 호출
     public void OnClick()
     {
-        if (slot.item == null) return;
+        if (slot == null || slot.item == null) return;
 
         CraftingUI crafting = FindObjectOfType<CraftingUI>();
         if (crafting != null && crafting.gameObject.activeSelf)

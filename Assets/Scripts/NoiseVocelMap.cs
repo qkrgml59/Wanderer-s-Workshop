@@ -61,8 +61,8 @@ public class NoiseVocelMap : MonoBehaviour
         {
              for (int z = 0; z < depth; z++)
              {
-                float nx = (x + offsetX) / noiseScale;
-                float nz = (z + offsetZ) / noiseScale;
+                float nx = (x + offsetX);
+                float nz = (z + offsetZ);
                 float noise = Mathf.PerlinNoise(nx, nz);
 
                 if (noise < 0.2f)                              //나무 생성 조건

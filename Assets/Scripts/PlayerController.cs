@@ -59,4 +59,21 @@ public class PlayerController : MonoBehaviour
             cam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);              //Quaternion = x,y,z축 꼬임 방지의 새로운 축을 생성
 
     }
+
+    public void CollectItem(ItemSO item)
+    {
+
+        int itemCount = 1;
+        // 인벤토리에 추가
+        Inventory.Instance.AddItem(item, itemCount);
+
+        // 퀘스트에 반영
+        QuestManager.Instance.OnGather(item);
+    }
+
+    public void CraftItem(ItemSO item)
+    {
+        // 제작 후 퀘스트 반영
+        QuestManager.Instance.OnCraft(item);
+    }
 }

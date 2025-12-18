@@ -13,7 +13,31 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void AcceptQuest(QuestSO quest)
+    {
+        activeQuests.Add(new QuestInstance(quest));
+        Debug.Log($"Äù½ºÆ® ¼ö¶ô: {quest.questName}");
+    }
+
+    public void CompleteQuest(QuestInstance quest)
+    {
+        if (!quest.isCompleted)
+        {
+            quest.isCompleted = true;
+            PlayerStats.Instance.AddGold(quest.questSO.rewardGold);
+            Debug.Log($"Äù½ºÆ® ¿Ï·á: {quest.questSO.questName}");
+        }
     }
 
     public void OnGather(ItemSO item)

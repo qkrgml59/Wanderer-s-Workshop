@@ -14,18 +14,17 @@ public class QuestInstance
 
     public QuestInstance(QuestSO quest)
     {
-        this.questSO = quest;
+        questSO = quest;
         currentCount = 0;
         isCompleted = false;
     }
+
     public void OnGather(ItemSO item)
     {
-        if (isCompleted) return;
-        if (questSO.questType != QuestType.Gather) return;
+        if (isCompleted || questSO.questType != QuestType.Gather) return;
         if (questSO.targetItem != item) return;
 
         currentCount++;
-
         if (currentCount >= questSO.targetCount)
         {
             isCompleted = true;
@@ -35,12 +34,10 @@ public class QuestInstance
 
     public void OnCraft(ItemSO item)
     {
-        if (isCompleted) return;
-        if (questSO.questType != QuestType.Craft) return;
+        if (isCompleted || questSO.questType != QuestType.Craft) return;
         if (questSO.targetItem != item) return;
 
         currentCount++;
-
         if (currentCount >= questSO.targetCount)
         {
             isCompleted = true;
