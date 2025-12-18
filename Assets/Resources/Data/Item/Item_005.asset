@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Tree
   itemType: 0
-  maxStack: 1
+  maxStack: 99
   icon: {fileID: 1857506256, guid: d614c9ac963e59f4ba04153162e0d36d, type: 3}
+  isPlaceable: 0
+  placePrefab: {fileID: 0}
   canUse: 0
