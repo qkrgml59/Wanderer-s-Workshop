@@ -19,7 +19,9 @@ public class Inventory : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject); // 씬 전환 시 유지
+            for (int i = 0; i < bigSlotCount; i++)
+                slots.Add(new InventorySlot());
         }
         else
         {

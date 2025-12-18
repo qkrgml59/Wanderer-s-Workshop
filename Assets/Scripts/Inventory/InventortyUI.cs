@@ -37,4 +37,6 @@ public class InventortyUI : MonoBehaviour
     {
         inventoryPanel.SetActive(open);
     }
+
+
 }

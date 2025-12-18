@@ -7,6 +7,14 @@ public class QuickInventoryUI : MonoBehaviour
     public Inventory inventory;
     public InventorySlotUI[] slots;
 
+
+    private void Start()
+    {
+        for (int i = 0; i<slots.Length;i++)
+        {
+            slots[i].Init(Inventory.Instance, i);
+        }
+    }
     void Update()
     {
         for (int i = 0; i < slots.Length; i++)
